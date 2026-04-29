@@ -1,23 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
 
 function App() {
+  const [message, setMessage] = useState("");
+
+  const getData = async () => {
+    const res = await fetch("http://localhost:5000/api/test");
+    const data = await res.json();
+    setMessage(data.message);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div style={{ padding: "20px" }}>
+      <h2>Frontend</h2>
+
+      <button onClick={getData}>
+        Call Backend
+      </button>
+
+      <p>{message}</p>
     </div>
   );
 }
