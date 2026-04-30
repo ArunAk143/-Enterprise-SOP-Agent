@@ -3,18 +3,16 @@ const cors = require("cors");
 
 const app = express();
 
-// Middleware
 app.use(cors());
 app.use(express.json());
 
+// Routes
+const uploadRoute = require("./routes/uploadRoute");
+app.use("/api", uploadRoute);
+
 // Test route
 app.get("/", (req, res) => {
-  res.send("Backend is running");
-});
-
-// Example API
-app.get("/api/test", (req, res) => {
-  res.json({ message: "Hello from backend" });
+  res.send("Backend running");
 });
 
 const PORT = 5000;
