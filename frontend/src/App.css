@@ -36,3 +36,47 @@
     transform: rotate(360deg);
   }
 }
+
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f4f6f8;
+}
+
+.container {
+  width: 400px;
+  margin: 100px auto;
+  padding: 30px;
+  text-align: center;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  margin-bottom: 20px;
+}
+
+.file-input {
+  margin-bottom: 20px;
+}
+
+.upload-btn {
+  padding: 10px 20px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.upload-btn:hover {
+  background-color: #0056b3;
+}
+
+.message {
+  margin-top: 20px;
+  font-weight: bold;
+}
