@@ -1,9 +1,11 @@
 const express = require("express");
 const multer = require("multer");
 
+const { extractTextFromPDF, chunkText } = require("../utils/pdfProcessor");
+
 const router = express.Router();
 
-// Storage config
+// storage
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "uploads/");
@@ -13,7 +15,7 @@ const storage = multer.diskStorage({
   }
 });
 
-// File filter (only PDF)
+// only PDF
 const fileFilter = (req, file, cb) => {
   if (file.mimetype === "application/pdf") {
     cb(null, true);
@@ -22,17 +24,32 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
-const upload = multer({
-  storage: storage,
-  fileFilter: fileFilter
-});
+const upload = multer({ storage, fileFilter });
 
-// Route
-router.post("/upload", upload.single("file"), (req, res) => {
-  res.json({
-    message: "File upload successful",
-    file: req.file.filename
-  });
+// route
+router.post("/upload", upload.single("file"), async (req, res) => {
+  try {
+    const filePath = req.file.path;
+
+    // 1. Extract text
+    const text = await extractTextFromPDF(filePath);
+
+    // 2. Chunk text
+    const chunks = chunkText(text);
+
+    console.log("Total chunks:", chunks.length);
+    console.log("First chunk:\n", chunks[0]);
+
+    res.json({
+      message: "PDF processed successfully",
+      totalChunks: chunks.length,
+      sample: chunks[0] // send first chunk
+    });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Processing failed" });
+  }
 });
 
 module.exports = router;

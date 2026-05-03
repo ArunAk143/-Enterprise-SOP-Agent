@@ -21,7 +21,8 @@ function App() {
       });
 
       const data = await res.json();
-      setMessage(data.message);
+
+      setMessage(data.preview || data.sample || data.message);
     } catch (error) {
       console.error(error);
       setMessage("Upload failed");
