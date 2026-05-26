@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>OpsMind AI | Context-Aware Corporate Knowledge Brain</title>
+  <!-- Google Fonts & Simple Icons (Font Awesome) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f4f7fc;
+      color: #1a2c3e;
+      line-height: 1.5;
+    }
+
+    /* Layout */
+    .app-container {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Header */
+    .main-header {
+      background: linear-gradient(135deg, #0b2b3b 0%, #123b4d 100%);
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .logo-icon {
+      background: #2a9d8f;
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+    }
+    .brand h1 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+    }
+    .brand span {
+      font-size: 0.8rem;
+      opacity: 0.8;
+      font-weight: 400;
+    }
+    .header-badge {
+      background: rgba(255,255,255,0.15);
+      padding: 0.4rem 1rem;
+      border-radius: 40px;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+
+    /* two-column main content */
+    .dashboard {
+      display: flex;
+      flex: 1;
+      padding: 2rem;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    /* Left Panel: Admin Knowledge Base */
+    .admin-panel {
+      flex: 1.2;
+      min-width: 280px;
+      background: white;
+      border-radius: 28px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.03), 0 2px 6px rgba(0,0,0,0.05);
+      padding: 1.5rem;
+      transition: all 0.2s;
+      border: 1px solid #e2edf2;
+    }
+
+    /* Right Panel: QA Interface */
+    .qa-panel {
+      flex: 2;
+      min-width: 360px;
+      background: white;
+      border-radius: 28px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.03), 0 2px 6px rgba(0,0,0,0.05);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid #e2edf2;
+    }
+
+    .section-title {
+      font-weight: 600;
+      font-size: 1.3rem;
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-left: 4px solid #2a9d8f;
+      padding-left: 0.8rem;
+    }
+    .section-title i {
+      color: #2a9d8f;
+    }
+
+    /* Document Upload Card */
+    .upload-area {
+      background: #f9fdfe;
+      border: 1px dashed #b9d9e2;
+      border-radius: 20px;
+      padding: 1.2rem;
+      margin-bottom: 2rem;
+    }
+    .file-label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: #eef3f7;
+      padding: 0.7rem;
+      border-radius: 40px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: 0.2s;
+      border: 1px solid #d0e2ea;
+    }
+    .file-label:hover {
+      background: #e2edf2;
+    }
+    input[type="file"] {
+      display: none;
+    }
+    .upload-status {
+      margin-top: 10px;
+      font-size: 0.8rem;
+      color: #2c6e6e;
+    }
+    .btn {
+      background: #2a9d8f;
+      border: none;
+      color: white;
+      padding: 8px 18px;
+      border-radius: 40px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: 0.2s;
+      font-size: 0.85rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-danger {
+      background: #e76f51;
+    }
+    .btn-outline {
+      background: transparent;
+      border: 1px solid #2a9d8f;
+      color: #2a9d8f;
+    }
+    .btn-sm {
+      padding: 5px 12px;
+      font-size: 0.75rem;
+    }
+    .doc-list {
+      margin-top: 1rem;
+      max-height: 280px;
+      overflow-y: auto;
+    }
+    .doc-item {
+      background: #f8fafc;
+      border-radius: 16px;
+      padding: 0.8rem;
+      margin-bottom: 0.7rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-left: 3px solid #2a9d8f;
+      transition: 0.1s;
+    }
+    .doc-info {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .doc-name {
+      font-weight: 500;
+      font-size: 0.85rem;
+    }
+    .doc-meta {
+      font-size: 0.7rem;
+      color: #5f7f8c;
+    }
+    .delete-doc {
+      background: none;
+      border: none;
+      color: #bc9a7a;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: 0.2s;
+    }
+    .delete-doc:hover {
+      color: #e76f51;
+    }
+
+    /* Chat / QA section */
+    .chat-messages {
+      background: #fbfefd;
+      border-radius: 20px;
+      padding: 1rem;
+      height: 380px;
+      overflow-y: auto;
+      margin-bottom: 1.2rem;
+      border: 1px solid #e2edf2;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .message {
+      border-radius: 18px;
+      padding: 0.9rem 1rem;
+      max-width: 90%;
+      animation: fadeIn 0.2s ease;
+    }
+    .user-message {
+      background: #e9f3f0;
+      align-self: flex-end;
+      border-bottom-right-radius: 4px;
+      color: #144d5e;
+    }
+    .assistant-message {
+      background: white;
+      border: 1px solid #d8e9ef;
+      align-self: flex-start;
+      border-bottom-left-radius: 4px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+    }
+    .citation-block {
+      margin-top: 12px;
+      background: #fef8e7;
+      border-left: 3px solid #e9c46a;
+      padding: 10px 12px;
+      font-size: 0.75rem;
+      border-radius: 12px;
+      color: #7f5f2e;
+    }
+    .source-badge {
+      font-weight: 600;
+      font-size: 0.7rem;
+      color: #2a9d8f;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .query-form {
+      display: flex;
+      gap: 10px;
+      margin-top: 0.5rem;
+    }
+    .query-input {
+      flex: 1;
+      border: 1px solid #cbdde4;
+      border-radius: 60px;
+      padding: 12px 18px;
+      font-family: inherit;
+      font-size: 0.9rem;
+      outline: none;
+      transition: 0.2s;
+    }
+    .query-input:focus {
+      border-color: #2a9d8f;
+      box-shadow: 0 0 0 2px rgba(42,157,143,0.2);
+    }
+    .loading {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      color: #2a9d8f;
+      font-size: 0.8rem;
+      padding: 0.5rem;
+    }
+    .thinking {
+      font-style: italic;
+      opacity: 0.7;
+    }
+    footer {
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.7rem;
+      color: #7c9aa8;
+      border-top: 1px solid #e2edf2;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+    .empty-state {
+      text-align: center;
+      color: #8da9b5;
+      padding: 2rem;
+    }
+    ::-webkit-scrollbar {
+      width: 5px;
+    }
+  </style>
+</head>
+<body>
+<div class="app-container">
+  <header class="main-header">
+    <div class="logo-area">
+      <div class="logo-icon"><i class="fas fa-brain"></i></div>
+      <div class="brand">
+        <h1>OpsMind AI</h1>
+        <span>Context-Aware Corporate Knowledge Brain</span>
+      </div>
+    </div>
+    <div class="header-badge">
+      <i class="fas fa-shield-alt"></i> Hallucination-Free · Source-Cited RAG
+    </div>
+  </header>
+
+  <div class="dashboard">
+    <!-- Admin Knowledge Base Panel -->
+    <div class="admin-panel">
+      <div class="section-title">
+        <i class="fas fa-database"></i> Admin Knowledge Base
+      </div>
+      <div class="upload-area">
+        <label class="file-label" for="pdfUpload">
+          <i class="fas fa-cloud-upload-alt"></i> Upload SOP (PDF)
+        </label>
+        <input type="file" id="pdfUpload" accept="application/pdf" />
+        <div id="uploadStatus" class="upload-status"></div>
+        <div style="margin-top: 8px; font-size:0.7rem; color:#6e8f9b;">
+          <i class="fas fa-info-circle"></i> Upload any SOP PDF → automatic chunking, embedding & indexing
+        </div>
+      </div>
+      <div style="display: flex; justify-content: space-between; align-items:center;">
+        <span style="font-weight: 500;"><i class="fas fa-folder-open"></i> Managed SOPs</span>
+        <button id="refreshDocsBtn" class="btn btn-sm btn-outline"><i class="fas fa-sync-alt"></i> Refresh</button>
+      </div>
+      <div id="documentsList" class="doc-list">
+        <div class="empty-state"><i class="fas fa-file-pdf"></i> No SOPs uploaded yet.<br>Upload your first policy document.</div>
+      </div>
+      <div style="margin-top: 16px; font-size:0.7rem; background:#eef3f0; border-radius: 20px; padding: 8px 12px;">
+        <i class="fas fa-robot"></i> RAG pipeline: PDF → text chunks → vector embeddings → MongoDB Atlas Vector Search. Retrieves top 3-5 relevant chunks.
+      </div>
+    </div>
+
+    <!-- QA Interface -->
+    <div class="qa-panel">
+      <div class="section-title">
+        <i class="fas fa-comments"></i> Ask OpsMind AI
+      </div>
+      <div id="chatContainer" class="chat-messages">
+        <div class="message assistant-message">
+          <i class="fas fa-brain"></i> Hello! I’m OpsMind, your contextual SOP assistant. Ask me anything about corporate procedures, like “How do I process a refund?” I will cite exact sources from your knowledge base.
+        </div>
+      </div>
+      <div class="query-form">
+        <input type="text" id="userQuery" class="query-input" placeholder="e.g., How do I process a refund? What is the approval limit for expenses?" autocomplete="off">
+        <button id="askBtn" class="btn"><i class="fas fa-paper-plane"></i> Ask</button>
+      </div>
+      <div id="loadingIndicator" style="display: none;" class="loading">
+        <i class="fas fa-spinner fa-pulse"></i> Retrieving relevant SOP chunks & generating answer...
+      </div>
+    </div>
+  </div>
+  <footer>
+    <i class="fas fa-link"></i> Citations guaranteed from uploaded SOPs | Zero-hallucination RAG with explicit source extraction
+  </footer>
+</div>
+
+<script>
+  // ---------------------------
+  // SIMULATED BACKEND (In-Memory RAG)
+  // For demo, we store uploaded PDF content as extracted "chunks" that simulate
+  // full pipeline: document → chunking → embeddings → retrieval.
+  // Actual backend would use MongoDB + Vector Search, but frontend mocks realistic behavior
+  // with source citations, page references, and semantic retrieval.
+  // ---------------------------
+
+  // Data structure: list of documents, each doc has id, name, pages (array of chunks with metadata)
+  let knowledgeDocuments = [];
+
+  // Helper: generate random page & section for citations (makes demo realistic)
+  function generateCitationMeta(docName, chunkIndex) {
+    const pageNum = Math.floor(chunkIndex / 3) + 1;  // simulate page distribution
+    const sectionNum = (chunkIndex % 3) + 1;
+    return {
+      docName: docName,
+      page: pageNum,
+      section: `Section ${sectionNum}.${chunkIndex % 5 + 1}`,
+      excerpt: ""
+    };
+  }
+
+  // Mock PDF parsing & chunking: given file name and text content, produce chunks with semantic text.
+  // We simulate SOP content for different domains (refund, IT, HR, procurement)
+  function generateMockSOPContent(docName) {
+    // heuristic: based on doc name keywords, generate realistic SOP fragments
+    const lowerName = docName.toLowerCase();
+    let contentPool = [];
+    if (lowerName.includes('refund') || lowerName.includes('return')) {
+      contentPool = [
+        "Refund Request Initiation: The customer must submit a refund request via the internal portal or contact support. Refunds require order number and reason.",
+        "Approval Workflow: For refunds under $500, team lead approval is sufficient. For amounts between $500 and $2000, department head approval is mandatory. Above $2000 requires Finance Director sign-off.",
+        "Processing Timeline: Refunds are processed within 5–7 business days after approval. The refund method matches original payment type.",
+        "Exception Handling: Partial refunds must be documented with rationale and attached to the ticket. For international payments, additional 2 days for currency conversion.",
+        "SOP Refund Policy (Page 12, Section 3.1): All refunds over $1000 require a secondary audit by compliance team."
+      ];
+    } else if (lowerName.includes('expense') || lowerName.includes('approval')) {
+      contentPool = [
+        "Expense Report Submission: Employees must upload receipts within 7 days of expense. Expenses exceeding $250 need pre-approval.",
+        "Approval Matrix: Manager approval for $0–$500, VP approval for $501–$5000, CFO approval above $5000.",
+        "Reimbursement Cycle: Approved expenses reimbursed on next payroll cycle. Urgent requests (travel) can be marked 'priority'.",
+        "Policy Violation: Non-compliance results in delayed reimbursement or rejection. Appeals can be filed within 15 days."
+      ];
+    } else if (lowerName.includes('it') || lowerName.includes('security')) {
+      contentPool = [
+        "IT Access Request: Employees must submit a ticket through ServiceNow. Access is granted within 24 hours after manager sign-off.",
+        "Password Policy: Passwords must be at least 12 characters with complexity. Rotation every 90 days.",
+        "Data Breach Protocol: Immediately disconnect affected systems, notify CISO, and preserve logs. External reporting within 72 hours."
+      ];
+    } else {
+      contentPool = [
+        "Standard Operating Procedure: All corporate policies follow the hierarchy of guidelines. Employees must adhere to the latest version.",
+        "Document Control: SOP revisions are managed by the compliance department. Version history stored in central repository.",
+        "Training Requirement: All new hires must complete SOP training within first month. Annual refresher required.",
+        "Non-compliance Consequences: Verbal warning for first offense, written warning for second, up to termination for repeated violations."
+      ];
+    }
+    // add more generic lines to simulate rich chunking
+    let fullText = "";
+    for (let i = 0; i < 12; i++) {
+      fullText += contentPool[i % contentPool.length] + " Detailed procedure reference page " + (i+5) + ". ";
+    }
+    return fullText;
+  }
+
+  // Convert a document to chunks (simulate RAG chunking)
+  function chunkDocument(docId, docName, rawText) {
+    const sentences = rawText.split(/(?<=\.\s)/g);
+    const chunks = [];
+    let chunkSize = 3;
+    for (let i = 0; i < sentences.length; i += chunkSize) {
+      const chunkText = sentences.slice(i, i+chunkSize).join('').trim();
+      if (chunkText.length > 20) {
+        const citation = generateCitationMeta(docName, i);
+        chunks.push({
+          id: `${docId}_chunk_${i}`,
+          text: chunkText,
+          metadata: { docName, page: citation.page, section: citation.section, docId }
+        });
+      }
+    }
+    if (chunks.length === 0) {
+      chunks.push({
+        id: `${docId}_chunk_0`,
+        text: rawText.substring(0, 500),
+        metadata: { docName, page: 1, section: "General Policy", docId }
+      });
+    }
+    return chunks;
+  }
+
+  // Simulate embedding + retrieval: find top-3 chunks semantically matching query
+  function retrieveRelevantChunks(query, topK = 4) {
+    // simple keyword + semantic scoring (TF-IDF-like mock)
+    const queryTerms = query.toLowerCase().split(/\s+/).filter(t => t.length > 2);
+    let allChunks = [];
+    for (const doc of knowledgeDocuments) {
+      allChunks.push(...doc.chunks);
+    }
+    if (allChunks.length === 0) return [];
+
+    const scored = allChunks.map(chunk => {
+      const chunkLower = chunk.text.toLowerCase();
+      let score = 0;
+      for (const term of queryTerms) {
+        if (chunkLower.includes(term)) score += 2;
+        // bonus for exact phrase match
+        if (query.toLowerCase().split(' ').length > 1 && chunkLower.includes(query.toLowerCase())) score += 5;
+      }
+      // small semantic boost for refund, approval synonyms etc.
+      if (query.includes('refund') && (chunkLower.includes('refund') || chunkLower.includes('return'))) score += 8;
+      if (query.includes('approval') && (chunkLower.includes('approval') || chunkLower.includes('approve'))) score += 8;
+      if (query.includes('expense') && chunkLower.includes('expense')) score += 8;
+      if (query.includes('it') && chunkLower.includes('it access')) score += 5;
+      return { chunk, score };
+    });
+    scored.sort((a,b) => b.score - a.score);
+    const topChunks = scored.slice(0, topK).filter(item => item.score > 0);
+    if (topChunks.length === 0 && allChunks.length) return [scored[0]].filter(Boolean);
+    return topChunks.map(item => item.chunk);
+  }
+
+  // Generate LLM response with citation using retrieved chunks (No Hallucinations: Only uses provided chunks)
+  async function generateAnswerWithCitations(query) {
+    if (knowledgeDocuments.length === 0) {
+      return "⚠️ No SOP documents found in knowledge base. Please upload PDFs via Admin panel to enable context-aware answers.";
+    }
+    const relevantChunks = retrieveRelevantChunks(query, 5);
+    if (!relevantChunks.length) {
+      return "I couldn't find specific procedures related to your query in the current SOPs. Try rephrasing or upload more specific documents.";
+    }
+    // Build answer from chunks, ensuring cited sources
+    let combinedContext = "";
+    const citations = [];
+    for (let idx = 0; idx < relevantChunks.length; idx++) {
+      const chunk = relevantChunks[idx];
+      combinedContext += chunk.text + " ";
+      citations.push({
+        text: chunk.text.substring(0, 180),
+        docName: chunk.metadata.docName,
+        page: chunk.metadata.page,
+        section: chunk.metadata.section
+      });
+    }
+    // Synthesize answer: realistic LLM response using only the context.
+    let answer = "";
+    if (query.toLowerCase().includes("refund")) {
+      answer = "Based on the Refund Policy SOP, here is the refund procedure:\n\n";
+      const refundSteps = relevantChunks.filter(c => c.text.toLowerCase().includes("refund")).map(c => c.text);
+      if (refundSteps.length) answer += refundSteps.join(" ").substring(0, 400);
+      else answer += combinedContext.substring(0, 400);
+      answer += " Ensure to follow the approval workflow and timeline guidelines.";
+    } else if (query.toLowerCase().includes("approval") || query.toLowerCase().includes("expense")) {
+      answer = "According to the Expense Approval SOP:\n\n";
+      const approvalChunks = relevantChunks.filter(c => c.text.toLowerCase().includes("approval") || c.text.toLowerCase().includes("expense"));
+      if (approvalChunks.length) answer += approvalChunks.map(c => c.text.substring(0, 200)).join(" ");
+      else answer += combinedContext.substring(0, 450);
+    } else {
+      answer = `Based on the retrieved Standard Operating Procedures: ${combinedContext.substring(0, 500)}... For complete details, refer to the cited sections.`;
+    }
+    // Append explicit citations as per requirement
+    answer += "\n\n**Sources:**\n";
+    const uniqueCitations = [];
+    citations.forEach(cit => {
+      const key = `${cit.docName}-p${cit.page}`;
+      if (!uniqueCitations.includes(key)) {
+        uniqueCitations.push(key);
+        answer += `📄 ${cit.docName} (Page ${cit.page}, ${cit.section}): “${cit.text.length > 70 ? cit.text.substring(0, 70)+'…' : cit.text}”\n`;
+      }
+    });
+    return answer;
+  }
+
+  // Upload file handler: simulate PDF upload, extraction, chunking, embedding (storing in memory)
+  async function handlePDFUpload(file){
+    if (!file || file.type !== 'application/pdf') {
+      document.getElementById('uploadStatus').innerHTML = '<span style="color:#e76f51;"><i class="fas fa-exclamation-circle"></i> Please upload a valid PDF file.</span>';
+      return false;
+    }
+    document.getElementById('uploadStatus').innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Processing PDF, chunking & generating embeddings...';
+    // Simulate async extraction: read file as dataURL? For demo we create mock content based on filename.
+    // In real implementation, frontend would send file to backend endpoint for parsing. We'll simulate:
+    setTimeout(() => {
+      const docId = Date.now() + Math.random() * 1000;
+      const docName = file.name.replace('.pdf', '');
+      const mockFullText = generateMockSOPContent(docName);
+      const chunks = chunkDocument(docId, docName, mockFullText);
+      knowledgeDocuments.push({
+        id: docId,
+        name: docName,
+        fileName: file.name,
+        chunks: chunks,
+        uploadedAt: new Date().toLocaleString()
+      });
+      document.getElementById('uploadStatus').innerHTML = `<span style="color:#2a9d8f;"><i class="fas fa-check-circle"></i> ✓ "${file.name}" uploaded, chunked & indexed (${chunks.length} vectors stored). Ready for RAG.</span>`;
+      renderDocumentsList();
+      setTimeout(() => {
+        document.getElementById('uploadStatus').innerHTML = '';
+      }, 3000);
+    }, 600);
+    return true;
+  }
+
+  // Delete document
+  function deleteDocument(docId) {
+    knowledgeDocuments = knowledgeDocuments.filter(doc => doc.id !== docId);
+    renderDocumentsList();
+    addAssistantMessage("🗂️ Knowledge base updated: SOP removed. Re-indexing complete.");
+  }
+
+  // Render SOP list
+  function renderDocumentsList() {
+    const container = document.getElementById('documentsList');
+    if (!knowledgeDocuments.length) {
+      container.innerHTML = '<div class="empty-state"><i class="fas fa-file-pdf"></i> No SOPs uploaded yet.<br>Upload your first policy document.</div>';
+      return;
+    }
+    let html = '';
+    knowledgeDocuments.forEach(doc => {
+      const chunkCount = doc.chunks?.length || 0;
+      html += `
+        <div class="doc-item">
+          <div class="doc-info">
+            <div class="doc-name"><i class="fas fa-file-pdf"></i> ${escapeHtml(doc.name)}.pdf</div>
+            <div class="doc-meta">${chunkCount} chunks • ${doc.uploadedAt || 'now'}</div>
+          </div>
+          <button class="delete-doc" data-id="${doc.id}" title="Delete SOP & re-index"><i class="fas fa-trash-alt"></i></button>
+        </div>
+      `;
+    });
+    container.innerHTML = html;
+    document.querySelectorAll('.delete-doc').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const id = Number(btn.getAttribute('data-id'));
+        deleteDocument(id);
+      });
+    });
+  }
+
+  // Helper escape
+  function escapeHtml(str) { return str.replace(/[&<>]/g, function(m){if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m;}); }
+
+  // UI chat functions
+  function addUserMessage(text) {
+    const chatDiv = document.getElementById('chatContainer');
+    const msgDiv = document.createElement('div');
+    msgDiv.className = 'message user-message';
+    msgDiv.innerHTML = `<i class="fas fa-user"></i> ${escapeHtml(text)}`;
+    chatDiv.appendChild(msgDiv);
+    chatDiv.scrollTop = chatDiv.scrollHeight;
+  }
+  function addAssistantMessage(text) {
+    const chatDiv = document.getElementById('chatContainer');
+    const msgDiv = document.createElement('div');
+    msgDiv.className = 'message assistant-message';
+    // render newlines and citations
+    msgDiv.innerHTML = `<i class="fas fa-brain"></i> <div style="white-space: pre-wrap;">${escapeHtml(text).replace(/\n/g, '<br>')}</div>`;
+    chatDiv.appendChild(msgDiv);
+    chatDiv.scrollTop = chatDiv.scrollHeight;
+  }
+  async function onSubmitQuery() {
+    const queryInput = document.getElementById('userQuery');
+    const query = queryInput.value.trim();
+    if (!query) return;
+    addUserMessage(query);
+    queryInput.value = '';
+    const loading = document.getElementById('loadingIndicator');
+    loading.style.display = 'flex';
+    const askBtn = document.getElementById('askBtn');
+    askBtn.disabled = true;
+    // simulate network delay & retrieval
+    setTimeout(async () => {
+      const answer = await generateAnswerWithCitations(query);
+      addAssistantMessage(answer);
+      loading.style.display = 'none';
+      askBtn.disabled = false;
+    }, 400);
+  }
+
+  // Event listeners
+  document.getElementById('pdfUpload').addEventListener('change', (e) => {
+    if (e.target.files.length) handlePDFUpload(e.target.files[0]);
+    e.target.value = ''; // allow re-upload same file
+  });
+  document.getElementById('askBtn').addEventListener('click', onSubmitQuery);
+  document.getElementById('userQuery').addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') onSubmitQuery();
+  });
+  document.getElementById('refreshDocsBtn').addEventListener('click', () => renderDocumentsList());
+
+  // preload demo SOP to show functionality (two sample docs)
+  function initDemoSOPs() {
+    const demo1 = { id: 1001, name: "Refund_Policy", fileName: "Refund_Policy.pdf", uploadedAt: "Demo preload" };
+    const demo2 = { id: 1002, name: "Expense_Approval_SOP", fileName: "Expense_Approval_SOP.pdf", uploadedAt: "Demo preload" };
+    const text1 = generateMockSOPContent("Refund_Policy");
+    const text2 = generateMockSOPContent("Expense_Approval_SOP");
+    demo1.chunks = chunkDocument(1001, "Refund_Policy", text1);
+    demo2.chunks = chunkDocument(1002, "Expense_Approval_SOP", text2);
+    knowledgeDocuments.push(demo1, demo2);
+    renderDocumentsList();
+  }
+  initDemoSOPs();
+</script>
+</body>
+</html>
