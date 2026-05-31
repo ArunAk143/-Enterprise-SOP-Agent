@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>OpsMind AI | Context-Aware Corporate Knowledge Brain</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+<div class="app-container">
+    <header class="main-header">
+        <div class="logo-area">
+            <div class="logo-icon"><i class="fas fa-brain"></i></div>
+            <div class="brand">
+                <h1>OpsMind AI</h1>
+                <span>Context-Aware Corporate Knowledge Brain</span>
+            </div>
+        </div>
+        <div class="header-badge">
+            <i class="fas fa-shield-alt"></i> Hallucination-Free · Source-Cited RAG
+        </div>
+    </header>
+
+    <div class="dashboard">
+        <!-- Admin Knowledge Base Panel -->
+        <div class="admin-panel">
+            <div class="section-title">
+                <i class="fas fa-database"></i> Admin Knowledge Base
+            </div>
+            <div class="upload-area">
+                <label class="file-label" for="pdfUpload">
+                    <i class="fas fa-cloud-upload-alt"></i> Upload SOP (PDF)
+                </label>
+                <input type="file" id="pdfUpload" accept="application/pdf" />
+                <div id="uploadStatus" class="upload-status"></div>
+                <div style="margin-top: 8px; font-size:0.7rem; color:#6e8f9b;">
+                    <i class="fas fa-info-circle"></i> Upload any SOP PDF → automatic chunking, embedding & indexing
+                </div>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items:center;">
+                <span style="font-weight: 500;"><i class="fas fa-folder-open"></i> Managed SOPs</span>
+                <button id="refreshDocsBtn" class="btn btn-sm btn-outline"><i class="fas fa-sync-alt"></i> Refresh</button>
+            </div>
+            <div id="documentsList" class="doc-list">
+                <div class="empty-state"><i class="fas fa-file-pdf"></i> No SOPs uploaded yet.<br>Upload your first policy document.</div>
+            </div>
+            <div style="margin-top: 16px; font-size:0.7rem; background:#eef3f0; border-radius: 20px; padding: 8px 12px;">
+                <i class="fas fa-robot"></i> RAG pipeline: PDF → text chunks → vector embeddings → MongoDB Atlas Vector Search. Retrieves top 3-5 relevant chunks.
+            </div>
+        </div>
+
+        <!-- QA Interface -->
+        <div class="qa-panel">
+            <div class="section-title">
+                <i class="fas fa-comments"></i> Ask OpsMind AI
+            </div>
+            <div id="chatContainer" class="chat-messages">
+                <div class="message assistant-message">
+                    <i class="fas fa-brain"></i> Hello! I'm OpsMind, your contextual SOP assistant. Ask me anything about corporate procedures, like "How do I process a refund?" I will cite exact sources from your knowledge base.
+                </div>
+            </div>
+            <div class="query-form">
+                <input type="text" id="userQuery" class="query-input" placeholder="e.g., How do I process a refund? What is the approval limit for expenses?" autocomplete="off">
+                <button id="askBtn" class="btn"><i class="fas fa-paper-plane"></i> Ask</button>
+            </div>
+            <div id="loadingIndicator" style="display: none;" class="loading">
+                <i class="fas fa-spinner fa-pulse"></i> Retrieving relevant SOP chunks & generating answer...
+            </div>
+        </div>
+    </div>
+    <footer>
+        <i class="fas fa-link"></i> Citations guaranteed from uploaded SOPs | Zero-hallucination RAG with explicit source extraction
+    </footer>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
